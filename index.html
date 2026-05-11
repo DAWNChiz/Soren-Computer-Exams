@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Applications Quiz · Ranchi University</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=Cabinet+Grotesk:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#1a1209;--paper:#faf7f2;--cream:#f2ece0;--warm:#e8dcc8;
+  --gold:#c9973a;--gold-light:#f0c96a;
+  --teal:#1e7a6e;--teal-light:#2aaa98;
+  --rust:#c94f2a;--purple:#5a3e8a;
+  --muted:#8a7a62;--border:#d8cbb8;--radius:14px;
+  --shadow:0 2px 20px rgba(26,18,9,0.07);
+}
+.dark{
+  --ink:#eeeae2;--paper:#0f0e0c;--cream:#1a1916;--warm:#242220;
+  --gold:#e0aa48;--gold-light:#f5d06a;
+  --teal:#2aaa98;--teal-light:#3dcfbb;
+  --rust:#e05a38;--purple:#8a6adf;
+  --muted:#7a7060;--border:#2e2c28;
+  --shadow:0 2px 20px rgba(0,0,0,0.3);
+}
+body{background:var(--paper);color:var(--ink);font-family:'Cabinet Grotesk',sans-serif;min-height:100vh;overflow-x:hidden;transition:background 0.3s,color 0.3s}
+body::after{content:'';position:fixed;top:-120px;right:-120px;width:400px;height:400px;background:radial-gradient(circle,rgba(201,151,58,0.1) 0%,transparent 70%);pointer-events:none;z-index:0}
+.blob-bl{position:fixed;bottom:-100px;left:-100px;width:350px;height:350px;background:radial-gradient(circle,rgba(30,122,110,0.08) 0%,transparent 70%);pointer-events:none;z-index:0}
+.wrap{max-width:780px;margin:0 auto;padding:40px 24px 100px;position:relative;z-index:1}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pop{0%{transform:scale(0.85);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+@keyframes celebrate{0%{transform:scale(1)}50%{transform:scale(1.12) rotate(-3deg)}100%{transform:scale(1)}}
+@keyframes slide-in{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+@keyframes confetti-fall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+@keyframes glow{0%,100%{box-shadow:0 0 10px rgba(201,151,58,0.3)}50%{box-shadow:0 0 30px rgba(201,151,58,0.7),0 0 60px rgba(201,151,58,0.3)}}
+
+/* DARK TOGGLE */
+.dark-toggle{position:fixed;top:20px;right:20px;z-index:100;background:var(--cream);border:1.5px solid var(--border);border-radius:100px;padding:8px 14px;cursor:pointer;font-size:18px;transition:all 0.2s;box-shadow:var(--shadow)}
+.dark-toggle:hover{transform:scale(1.1)}
+
+/* HEADER */
+.site-header{text-align:center;margin-bottom:32px;animation:fadeUp 0.6s ease both}
+.uni-tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);background:var(--cream);border:1px solid var(--border);padding:5px 14px;border-radius:100px;margin-bottom:20px}
+.site-header h1{font-family:'Fraunces',serif;font-size:clamp(32px,7vw,56px);font-weight:900;line-height:1.05;color:var(--ink);margin-bottom:10px}
+.site-header h1 em{font-style:italic;color:var(--teal)}
+.site-header p{color:var(--muted);font-size:15px;max-width:440px;margin:0 auto;line-height:1.65}
+
+/* DAILY QUOTE */
+.daily-quote{background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:14px 18px;margin-bottom:32px;font-size:13.5px;font-style:italic;color:var(--muted);line-height:1.6;animation:fadeUp 0.5s 0.2s ease both}
+
+/* SETUP */
+#setup-screen{animation:fadeUp 0.5s 0.1s ease both}
+.section-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.topics-grid{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.topic-pill{display:flex;align-items:center;gap:8px;background:var(--cream);border:1.5px solid var(--border);border-radius:100px;padding:9px 18px;cursor:pointer;transition:all 0.18s ease;font-size:13px;font-weight:500;color:var(--ink);user-select:none}
+.topic-pill:hover{border-color:var(--teal);background:rgba(30,122,110,0.06);transform:translateY(-2px)}
+.topic-pill.selected{background:var(--teal);border-color:var(--teal);color:white}
+.pill-dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:0.45;flex-shrink:0}
+.topic-pill.selected .pill-dot{opacity:1;background:var(--gold-light)}
+.select-all-btn{background:none;border:none;color:var(--teal);font-family:'Cabinet Grotesk',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:4px 0;margin-bottom:24px;display:block}
+.options-row{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:32px;align-items:flex-end}
+.opt-group{display:flex;flex-direction:column;gap:8px}
+.seg{display:flex;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;background:var(--cream)}
+.seg button{padding:9px 20px;border:none;background:none;font-family:'Cabinet Grotesk',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.15s}
+.seg button.active{background:var(--teal);color:white;font-weight:700}
+.q-count-badge{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);background:var(--cream);border:1px solid var(--border);padding:8px 16px;border-radius:8px}
+.q-count-badge strong{color:var(--teal);font-size:16px}
+.start-btn{width:100%;padding:20px;background:var(--teal);border:none;border-radius:var(--radius);color:white;font-family:'Cabinet Grotesk',sans-serif;font-size:17px;font-weight:800;cursor:pointer;transition:all 0.2s ease;position:relative;overflow:hidden}
+.start-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0.12) 0%,transparent 100%)}
+.start-btn:hover{background:#16655b;transform:translateY(-3px);box-shadow:0 12px 32px rgba(30,122,110,0.3)}
+.start-btn:disabled{opacity:0.35;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* QUIZ */
+#quiz-screen{display:none;animation:fadeUp 0.4s ease both}
+.quiz-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.q-counter{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted)}
+.q-counter strong{color:var(--ink);font-size:20px;font-weight:500}
+.score-chip{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px;padding:6px 14px;border-radius:100px;background:rgba(30,122,110,0.1);border:1px solid rgba(30,122,110,0.25);color:var(--teal)}
+.timer-chip{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px;padding:6px 14px;border-radius:100px;background:rgba(201,151,58,0.1);border:1px solid rgba(201,151,58,0.25);color:var(--gold)}
+.timer-chip.urgent{background:rgba(201,79,42,0.1);border-color:rgba(201,79,42,0.3);color:var(--rust);animation:heartbeat 0.6s infinite}
+.progress-track{height:5px;background:var(--warm);border-radius:5px;margin-bottom:28px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:5px;transition:width 0.55s cubic-bezier(0.4,0,0.2,1)}
+.streak-banner{display:none;align-items:center;gap:10px;background:rgba(240,201,106,0.1);border:1.5px solid var(--gold);border-radius:10px;padding:12px 20px;margin-bottom:16px;font-size:14px;font-weight:700;color:var(--gold);animation:pop 0.4s ease both}
+.revisit-tag{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--rust);background:rgba(201,79,42,0.08);border:1px solid rgba(201,79,42,0.2);padding:3px 8px;border-radius:5px;margin-bottom:10px}
+
+/* Q Card */
+.q-card{background:var(--cream);border:1.5px solid var(--border);border-radius:20px;padding:28px;margin-bottom:16px;box-shadow:var(--shadow);animation:slide-in 0.35s ease both}
+.q-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.topic-tag{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:6px;border:1px solid}
+.tag-intro{color:var(--purple);background:rgba(90,62,138,0.08);border-color:rgba(90,62,138,0.2)}
+.tag-msoffice{color:var(--rust);background:rgba(201,79,42,0.08);border-color:rgba(201,79,42,0.2)}
+.q-num{width:32px;height:32px;border-radius:50%;background:var(--warm);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.question-text{font-size:17px;font-weight:600;line-height:1.55;color:var(--ink);margin-bottom:22px}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:12px;width:100%;background:var(--paper);border:1.5px solid var(--border);border-radius:11px;padding:13px 18px;cursor:pointer;transition:all 0.16s ease;text-align:left;font-family:'Cabinet Grotesk',sans-serif;color:var(--ink);font-size:14px;line-height:1.45;font-weight:500}
+.opt:hover:not(:disabled){border-color:var(--teal);background:rgba(30,122,110,0.05);transform:translateX(5px)}
+.opt-key{min-width:26px;height:26px;border-radius:7px;background:var(--border);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--muted);flex-shrink:0;transition:all 0.16s;margin-top:1px}
+.opt.correct{border-color:var(--teal-light);background:rgba(30,122,110,0.08);animation:pop 0.3s ease both}
+.opt.correct .opt-key{background:var(--teal);color:white}
+.opt.wrong{border-color:var(--rust);background:rgba(201,79,42,0.08);animation:shake 0.4s ease both}
+.opt.wrong .opt-key{background:var(--rust);color:white}
+.opt.reveal{border-color:rgba(30,122,110,0.3);background:rgba(30,122,110,0.04);opacity:0.65}
+.opt.reveal .opt-key{background:rgba(30,122,110,0.15);color:var(--teal)}
+.explanation{display:none;margin-top:16px;padding:14px 18px;background:var(--warm);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.6;color:var(--ink);animation:fadeIn 0.3s ease both}
+.explanation strong{color:var(--gold);display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;font-family:'JetBrains Mono',monospace}
+.quiz-nav{display:flex;justify-content:space-between;gap:12px;margin-top:16px}
+.nav-btn{padding:12px 24px;border-radius:10px;border:1.5px solid var(--border);font-family:'Cabinet Grotesk',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.15s;background:var(--cream);color:var(--ink)}
+.nav-btn.primary{background:var(--teal);border-color:var(--teal);color:white}
+.nav-btn.primary:hover{background:#16655b;transform:translateY(-2px);box-shadow:0 8px 20px rgba(30,122,110,0.25)}
+.nav-btn:hover:not(.primary):not(:disabled){background:var(--warm)}
+.nav-btn:disabled{opacity:0.3;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+
+/* RESULTS */
+#results-screen{display:none;animation:fadeUp 0.5s ease both}
+.result-card{background:var(--cream);border:1.5px solid var(--border);border-radius:24px;padding:44px 36px;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden;margin-bottom:20px}
+.result-card::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:300px;height:300px;background:radial-gradient(circle,rgba(201,151,58,0.1) 0%,transparent 70%);pointer-events:none}
+.result-emoji{font-size:60px;margin-bottom:16px;display:block;animation:celebrate 0.6s 0.3s ease both}
+.result-score{font-family:'Fraunces',serif;font-size:76px;font-weight:900;line-height:1;color:var(--teal);margin-bottom:8px}
+.result-label{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.result-sub{color:var(--muted);font-size:14px;margin-bottom:32px}
+.result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+.stat-box{background:var(--paper);border:1px solid var(--border);border-radius:12px;padding:16px 10px}
+.stat-num{font-family:'Fraunces',serif;font-size:30px;font-weight:700;display:block;margin-bottom:4px}
+.stat-num.green{color:var(--teal)}.stat-num.red{color:var(--rust)}.stat-num.gold{color:var(--gold)}
+.stat-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-family:'JetBrains Mono',monospace}
+.grade-bar-wrap{margin-bottom:28px}
+.grade-bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px;font-family:'JetBrains Mono',monospace}
+.grade-bar-track{height:10px;background:var(--warm);border-radius:10px;overflow:hidden}
+.grade-bar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--teal),var(--gold-light));transition:width 1.2s cubic-bezier(0.4,0,0.2,1)}
+.personal-best-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(201,151,58,0.12);border:1.5px solid rgba(201,151,58,0.3);border-radius:100px;padding:8px 20px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);font-weight:600;margin-bottom:24px;animation:pop 0.5s 0.6s ease both}
+.result-msg{font-size:15px;line-height:1.6;color:var(--muted);margin-bottom:28px;max-width:400px;margin-left:auto;margin-right:auto}
+.result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-action{padding:13px 24px;border-radius:10px;font-family:'Cabinet Grotesk',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.18s;border:1.5px solid var(--border);background:var(--paper);color:var(--ink)}
+.btn-action.primary{background:var(--teal);border-color:var(--teal);color:white}
+.btn-action.primary:hover{background:#16655b;transform:translateY(-2px);box-shadow:0 8px 24px rgba(30,122,110,0.3)}
+.btn-action:hover:not(.primary){background:var(--warm);transform:translateY(-2px)}
+
+/* SECRET MESSAGE */
+#secret-msg{display:none;margin-bottom:20px;border-radius:20px;overflow:hidden;animation:glow 2s infinite}
+.secret-inner{background:linear-gradient(135deg,#1a0a2e,#2d1045,#1a0a2e);padding:36px 32px;text-align:center;position:relative}
+.secret-inner::before{content:'✨';position:absolute;top:16px;left:20px;font-size:20px;animation:heartbeat 1.5s infinite}
+.secret-inner::after{content:'✨';position:absolute;top:16px;right:20px;font-size:20px;animation:heartbeat 1.5s 0.5s infinite}
+.secret-icon{font-size:48px;display:block;margin-bottom:16px;animation:heartbeat 1.5s infinite}
+.secret-text{font-family:'Fraunces',serif;font-size:clamp(18px,4vw,24px);font-weight:700;font-style:italic;line-height:1.5;color:#f5e6ff;margin-bottom:8px}
+.secret-sub{font-size:12px;color:rgba(245,230,255,0.5);font-family:'JetBrains Mono',monospace;letter-spacing:1px;text-transform:uppercase}
+
+/* WEAK CHAPTERS */
+.weak-chapters{background:var(--cream);border:1.5px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px}
+.weak-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.weak-item{margin-bottom:14px}
+.weak-item-top{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.weak-pct{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)}
+.weak-bar-track{height:6px;background:var(--warm);border-radius:6px;overflow:hidden}
+.weak-bar-fill{height:100%;border-radius:6px;transition:width 1s cubic-bezier(0.4,0,0.2,1)}
+.weak-good{background:var(--teal)}.weak-mid{background:var(--gold)}.weak-bad{background:var(--rust)}
+
+/* CHEAT SHEET */
+.cheat-sheet{background:var(--cream);border:1.5px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;display:none;animation:fadeUp 0.4s ease both}
+.cheat-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.cheat-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.45}
+.cheat-item:last-child{border-bottom:none}
+.cheat-q{color:var(--ink);font-weight:600;flex:1}
+.cheat-a{color:var(--teal);font-weight:700;min-width:100px;text-align:right;font-size:12px}
+
+/* CONFETTI */
+.confetti-piece{position:fixed;pointer-events:none;z-index:9999;animation:confetti-fall linear forwards}
+
+@media(max-width:500px){
+  .result-stats{gap:8px}.result-card{padding:28px 18px}.result-score{font-size:56px}
+  .options-row{flex-direction:column;align-items:flex-start}
+  .q-card{padding:20px 16px}.question-text{font-size:15px}
+}
+</style>
+</head>
+<body>
+<div class="blob-bl"></div>
+<button class="dark-toggle" id="dark-toggle">🌙</button>
+<div class="wrap">
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="uni-tag">Ranchi University · FYUGP · SEC-3</div>
+  <h1>Elementary <em>Computer</em><br>Applications Quiz</h1>
+  <p>Practice every chapter of your syllabus. Get instant feedback, explanations, and a full score report.</p>
+</header>
+
+<div class="daily-quote" id="daily-quote"></div>
+
+<!-- SETUP -->
+<div id="setup-screen">
+  <p class="section-title">Choose topics to practise</p>
+  <div class="topics-grid" id="topics-grid"></div>
+  <button class="select-all-btn" id="select-all-btn">Select all topics</button>
+  <div class="options-row">
+    <div class="opt-group">
+      <p class="section-title">Question order</p>
+      <div class="seg" id="order-seg">
+        <button class="active" data-val="random">🔀 Shuffle</button>
+        <button data-val="sequential">123 In order</button>
+      </div>
+    </div>
+    <div class="opt-group">
+      <p class="section-title">Feedback timing</p>
+      <div class="seg" id="feedback-seg">
+        <button class="active" data-val="instant">⚡ Instant</button>
+        <button data-val="end">📋 At end</button>
+      </div>
+    </div>
+    <div class="q-count-badge"><strong id="q-count-display">0</strong> questions ready</div>
+  </div>
+  <button class="start-btn" id="start-btn" disabled>Start Quiz →</button>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz-screen">
+  <div class="quiz-topbar">
+    <div class="q-counter">Q <strong id="q-current">1</strong> / <span id="q-total">10</span></div>
+    <div class="score-chip">✦ <span id="live-score">0</span> pts</div>
+    <div class="timer-chip" id="timer-chip">⏱ <span id="timer-display">0s</span></div>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  <div class="streak-banner" id="streak-banner">🔥 <span id="streak-text"></span></div>
+  <div id="revisit-tag-wrap"></div>
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="topic-tag tag-intro" id="q-tag">Topic</span>
+      <div class="q-num" id="q-num-badge">1</div>
+    </div>
+    <p class="question-text" id="q-text"></p>
+    <div class="opts" id="opts-container"></div>
+    <div class="explanation" id="explanation">
+      <strong>💡 Explanation</strong>
+      <span id="explanation-text"></span>
+    </div>
+  </div>
+  <div class="quiz-nav">
+    <button class="nav-btn" id="prev-btn" disabled>← Prev</button>
+    <button class="nav-btn primary" id="next-btn">Next →</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results-screen">
+  <div id="secret-msg">
+    <div class="secret-inner">
+      <span class="secret-icon">🤍</span>
+      <p class="secret-text">"You just proved what I already knew — you're brilliant. I made every question just for you. Now go make me even more proud. Go show that exam who's boss. 🤍"</p>
+      <p class="secret-sub">✨ You earned this ✨</p>
+    </div>
+  </div>
+  <div class="result-card">
+    <span class="result-emoji" id="result-emoji">🎓</span>
+    <div class="result-score" id="result-pct">0%</div>
+    <div class="result-label" id="result-grade">Well done!</div>
+    <div class="result-sub">Here's how you performed</div>
+    <div class="result-stats">
+      <div class="stat-box"><span class="stat-num green" id="r-correct">0</span><span class="stat-lbl">Correct</span></div>
+      <div class="stat-box"><span class="stat-num red" id="r-wrong">0</span><span class="stat-lbl">Wrong</span></div>
+      <div class="stat-box"><span class="stat-num gold" id="r-skipped">0</span><span class="stat-lbl">Skipped</span></div>
+    </div>
+    <div class="grade-bar-wrap">
+      <div class="grade-bar-label"><span>0%</span><span id="bar-pct-label">0%</span></div>
+      <div class="grade-bar-track"><div class="grade-bar-fill" id="grade-bar-fill" style="width:0%"></div></div>
+    </div>
+    <div class="personal-best-tag" id="personal-best-tag" style="display:none">🏆 New Personal Best!</div>
+    <p class="result-msg" id="result-msg"></p>
+    <div class="result-actions">
+      <button class="btn-action primary" id="btn-restart">🔄 Try Again</button>
+      <button class="btn-action" id="btn-cheatsheet">📄 Mistakes & Tips</button>
+      <button class="btn-action" id="btn-home">← Topics</button>
+    </div>
+  </div>
+  <div class="weak-chapters">
+    <p class="weak-title">📊 Chapter Performance</p>
+    <div id="weak-chapters-content"></div>
+  </div>
+  <div class="cheat-sheet" id="cheat-sheet">
+    <p class="cheat-title">📄 Revision Cheat Sheet — Questions You Got Wrong</p>
+    <div id="cheat-sheet-content"></div>
+    <button class="btn-action" style="margin-top:16px;width:100%" onclick="window.print()">🖨️ Print</button>
+  </div>
+</div>
+
+</div>
+<script>
+const QUESTIONS = [
+{t:"intro",tl:"Basic Concept of Computer",q:"What is a computer?",o:["A mechanical calculator only","An electronic device that processes data and produces output","A typewriter with memory","A device used only for games"],a:1,e:"A computer is an electronic device that accepts input data, processes it according to instructions, and produces meaningful output."},
+{t:"intro",tl:"Basic Concept of Computer",q:"Which of the following is NOT a typical application of computers?",o:["Data processing","Scientific research","Directly cooking food","Communication"],a:2,e:"Computers are used for data processing, research, communication, and design — but cannot directly cook food."},
+{t:"intro",tl:"Basic Concept of Computer",q:"Which type of computer is the most powerful, used for large-scale scientific computation?",o:["Minicomputer","Microcomputer","Supercomputer","Mainframe"],a:2,e:"Supercomputers are the fastest and most powerful computers, used for weather forecasting, nuclear simulations, and research."},
+{t:"intro",tl:"Basic Concept of Computer",q:"Which of the following is a component of a computer system?",o:["Hardware only","Software only","Both hardware and software","Neither"],a:2,e:"A complete computer system requires both hardware (physical parts) and software (programs/instructions) to function."},
+{t:"intro",tl:"Basic Concept of Computer",q:"The Central Processing Unit (CPU) is often called the ________ of the computer.",o:["Heart","Brain","Spine","Memory"],a:1,e:"The CPU is the brain of the computer — it executes instructions, performs calculations, and controls all computer operations."},
+{t:"intro",tl:"Basic Concept of Computer",q:"Which part of the CPU performs arithmetic and logical operations?",o:["Control Unit","Register","ALU (Arithmetic Logic Unit)","Cache Memory"],a:2,e:"The ALU (Arithmetic Logic Unit) handles all mathematical calculations and logical comparisons within the CPU."},
+{t:"intro",tl:"Basic Concept of Computer",q:"A personal computer (PC) is an example of which type of computer?",o:["Mainframe","Supercomputer","Minicomputer","Microcomputer"],a:3,e:"Personal computers are microcomputers — they use a microprocessor chip as the CPU and are designed for individual use."},
+{t:"intro",tl:"Basic Concept of Computer",q:"The full form of CPU is:",o:["Central Processing Unit","Computer Personal Unit","Central Program Unit","Core Processing Unit"],a:0,e:"CPU stands for Central Processing Unit — the primary component that processes all data and instructions in a computer."},
+{t:"intro",tl:"Concepts of Hardware",q:"Which of the following is an INPUT device?",o:["Monitor","Printer","Keyboard","Speaker"],a:2,e:"A keyboard is an input device — it allows the user to enter data and commands into the computer."},
+{t:"intro",tl:"Concepts of Hardware",q:"Which of the following is an OUTPUT device?",o:["Scanner","Mouse","Joystick","Monitor"],a:3,e:"A monitor (display screen) is an output device that shows processed information to the user."},
+{t:"intro",tl:"Concepts of Hardware",q:"What type of computer memory loses its data when the power is switched off?",o:["ROM","Hard Disk","RAM","Flash Drive"],a:2,e:"RAM (Random Access Memory) is volatile memory — all data stored in RAM is lost when the computer is powered off."},
+{t:"intro",tl:"Concepts of Hardware",q:"ROM stands for:",o:["Read Only Memory","Random Optical Memory","Read Optical Media","Rewritable Output Memory"],a:0,e:"ROM stands for Read Only Memory. It stores permanent data that cannot be easily changed and retains data without power."},
+{t:"intro",tl:"Concepts of Hardware",q:"Which of the following is a secondary storage device?",o:["RAM","Cache Memory","Hard Disk Drive","Register"],a:2,e:"A Hard Disk Drive (HDD) is a secondary storage device used for permanent, large-capacity data storage."},
+{t:"intro",tl:"Concepts of Hardware",q:"A scanner is used to:",o:["Print documents on paper","Convert physical documents into digital format","Display video output","Control the cursor"],a:1,e:"A scanner converts physical documents, photographs, or images into digital format that the computer can store and process."},
+{t:"intro",tl:"Concepts of Hardware",q:"Which of the following has the fastest data access speed?",o:["Hard Disk Drive","USB Flash Drive","Cache Memory","CD-ROM"],a:2,e:"Cache memory is the fastest type of memory, located very close to the CPU for rapid data access."},
+{t:"intro",tl:"Concepts of Hardware",q:"A printer is an example of which type of device?",o:["Input device","Processing device","Output device","Storage device"],a:2,e:"A printer produces a physical printout of digital documents, so it is an output device."},
+{t:"intro",tl:"Concepts of Hardware",q:"Which type of memory is non-volatile and permanently stores the BIOS?",o:["RAM","Cache","ROM","Virtual Memory"],a:2,e:"ROM is non-volatile (retains data without power) and typically stores the BIOS — firmware that starts up the computer."},
+{t:"intro",tl:"Operating System",q:"What is an Operating System?",o:["A hardware component like RAM","System software that manages computer hardware and software resources","An application for word processing","A type of computer network"],a:1,e:"An Operating System is system software that acts as an interface between the user and hardware, managing all resources and processes."},
+{t:"intro",tl:"Operating System",q:"Which of the following is an example of an Operating System?",o:["MS Word","Windows 11","Google Chrome","Adobe Photoshop"],a:1,e:"Windows 11 is an operating system. MS Word and Chrome are applications; Photoshop is a graphics editing program."},
+{t:"intro",tl:"Operating System",q:"What does 'This PC' allow users to do in Windows?",o:["Browse the internet","Access and manage files, folders, and drives","Create presentations","Send and receive emails"],a:1,e:"'This PC' lets users navigate the file system — accessing hard drives, USB drives, folders, and files on their computer."},
+{t:"intro",tl:"Operating System",q:"The Control Panel in Windows is used to:",o:["Write documents","Play audio files","Change system settings and configure hardware","Draw and edit images"],a:2,e:"Control Panel provides a centralised interface to configure Windows settings: display, sound, user accounts, network, and hardware."},
+{t:"intro",tl:"Operating System",q:"Which feature in Windows allows you to quickly search for files, settings, and applications?",o:["Task Manager","Windows Search bar","MS Paint","Notepad"],a:1,e:"The Windows Search bar allows users to quickly find files, folders, apps, and system settings without manually browsing folders."},
+{t:"intro",tl:"Operating System",q:"When you install an application in Windows, program files are typically stored in:",o:["Desktop","Recycle Bin","Program Files folder","Control Panel"],a:2,e:"By default, Windows saves installed application files in the 'Program Files' or 'Program Files (x86)' directory on the C: drive."},
+{t:"intro",tl:"Operating System",q:"Which function of an OS manages the use of RAM by different running programs?",o:["File Management","Memory Management","Device Management","Security Management"],a:1,e:"Memory Management allocates and deallocates RAM to running programs, ensuring efficient and conflict-free use of memory."},
+{t:"intro",tl:"Operating System",q:"What are the key functions of an Operating System?",o:["Only manage files","Process, memory, file, and device management","Only handle internet connections","Only provide a user interface"],a:1,e:"The OS performs process management, memory management, file management, device management, and provides a user interface."},
+{t:"intro",tl:"Concept of Software",q:"Software is best defined as:",o:["Physical components of a computer system","A set of programs and instructions that tell the computer what to do","The monitor and keyboard combined","The computer's casing"],a:1,e:"Software is a collection of programs, data, and instructions that direct the computer hardware to perform tasks."},
+{t:"intro",tl:"Concept of Software",q:"Which of the following is System Software?",o:["Microsoft Word","VLC Media Player","Windows 11 Operating System","Adobe Photoshop"],a:2,e:"System software (like Windows 11) manages hardware and provides a platform for application software to run on."},
+{t:"intro",tl:"Concept of Software",q:"Application software is designed to:",o:["Manage hardware resources directly","Help users perform specific tasks like writing or spreadsheets","Control device drivers","Run and manage the operating system"],a:1,e:"Application software is designed for end-users to accomplish specific tasks: writing documents, browsing, editing images, etc."},
+{t:"intro",tl:"Concept of Software",q:"Which of the following is a High-Level Programming Language?",o:["Machine Language (0s and 1s)","Assembly Language","Python","Binary Code"],a:2,e:"Python is a high-level language with human-readable syntax. Machine language and assembly are low-level languages."},
+{t:"intro",tl:"Concept of Software",q:"Software is broadly classified into:",o:["Input and Output software","System software and Application software","Primary and Secondary software","Hardware and Firmware only"],a:1,e:"Software is classified into System Software (OS, drivers) and Application Software (Word, Excel, games, etc.)."},
+{t:"intro",tl:"Concept of Software",q:"Which of the following is an example of Application Software?",o:["BIOS firmware","Windows device driver","MS Paint drawing program","Windows OS Kernel"],a:2,e:"MS Paint is application software for image editing. BIOS, device drivers, and the OS kernel are system software."},
+{t:"intro",tl:"Internet & Its Uses",q:"LAN stands for:",o:["Large Area Network","Local Area Network","Linked Access Network","Light Area Node"],a:1,e:"LAN stands for Local Area Network — a network connecting computers within a small area like an office building or campus."},
+{t:"intro",tl:"Internet & Its Uses",q:"WAN stands for:",o:["Wireless Access Node","Wide Area Network","Web Application Network","Wired Area Node"],a:1,e:"WAN (Wide Area Network) covers large geographic areas. The Internet is the world's largest WAN."},
+{t:"intro",tl:"Internet & Its Uses",q:"MAN stands for:",o:["Multiple Area Node","Metropolitan Area Network","Main Access Node","Managed Area Network"],a:1,e:"MAN (Metropolitan Area Network) covers a city or large campus — larger than a LAN but smaller than a WAN."},
+{t:"intro",tl:"Internet & Its Uses",q:"What does ISP stand for?",o:["Internet Software Package","Internet Service Provider","Internal Server Protocol","Integrated System Platform"],a:1,e:"ISP stands for Internet Service Provider — the company that provides you with access to the internet (e.g. Airtel, Jio, BSNL)."},
+{t:"intro",tl:"Internet & Its Uses",q:"WWW stands for:",o:["World Wide Web","World Wire Web","Wide Web World","Wireless Web World"],a:0,e:"WWW stands for World Wide Web — a system of interlinked hypertext documents and resources accessed via the internet."},
+{t:"intro",tl:"Internet & Its Uses",q:"What is a URL?",o:["A type of computer virus","The address used to locate a specific resource on the internet","A web browser application","An email file attachment"],a:1,e:"URL (Uniform Resource Locator) is the web address that identifies the location of a specific resource on the internet."},
+{t:"intro",tl:"Internet & Its Uses",q:"Which of the following is a web browser?",o:["Microsoft Excel","Google Chrome","Notepad","Windows Defender"],a:1,e:"Google Chrome is a web browser — software used to access and navigate websites. Excel is a spreadsheet; Notepad is a text editor."},
+{t:"intro",tl:"Internet & Its Uses",q:"What is e-governance?",o:["Electronic games for government employees","Using ICT to deliver government services to citizens online","Accounting software for the government","A private email service"],a:1,e:"E-governance uses Information and Communication Technology to deliver government services, forms, and information to citizens digitally."},
+{t:"intro",tl:"Internet & Its Uses",q:"An IP address is used to:",o:["Identify a device uniquely on a network","Store user passwords securely","Format a hard drive","Print documents wirelessly"],a:0,e:"An IP (Internet Protocol) address is a unique numerical label assigned to each device on a network for identification and communication."},
+{t:"intro",tl:"Internet & Its Uses",q:"Which protocol is used to send emails between servers?",o:["HTTP","FTP","SMTP","TCP"],a:2,e:"SMTP (Simple Mail Transfer Protocol) is the standard protocol used for sending emails from a client to a server and between servers."},
+{t:"intro",tl:"Internet & Its Uses",q:"A Domain Name is:",o:["A computer's IP address in numeric form","A human-readable address for a website (e.g. ranchi.ac.in)","A type of network cable","The browser's bookmark folder"],a:1,e:"A Domain Name is the human-readable address (like google.com) that maps to an IP address, making websites easy to find."},
+{t:"intro",tl:"Internet & Its Uses",q:"Which of the following is a Search Engine?",o:["Mozilla Firefox","Google","Microsoft Word","Windows File Explorer"],a:1,e:"Google is a search engine used to find information on the web. Firefox is a browser; Word is a word processor."},
+{t:"msoffice",tl:"Microsoft Word",q:"Microsoft Word is primarily used for:",o:["Creating spreadsheets","Word processing and document creation","Database management","Designing websites from scratch"],a:1,e:"Microsoft Word is a word processing application used to create, edit, format, and print text-based documents."},
+{t:"msoffice",tl:"Microsoft Word",q:"Which tab in MS Word contains options for changing font, size, and basic text formatting?",o:["Insert tab","View tab","Home tab","References tab"],a:2,e:"The Home tab contains the Font group with options for font type, size, bold, italic, underline, colour, and text alignment."},
+{t:"msoffice",tl:"Microsoft Word",q:"To insert a table in Microsoft Word, which tab do you use?",o:["Home tab","View tab","Insert tab","Layout tab"],a:2,e:"The Insert tab contains options to add tables, pictures, shapes, headers, footers, page numbers, and other elements."},
+{t:"msoffice",tl:"Microsoft Word",q:"What is the keyboard shortcut to Save a document in MS Word?",o:["Ctrl+P","Ctrl+S","Ctrl+N","Ctrl+Z"],a:1,e:"Ctrl+S saves the current document. Ctrl+P is Print, Ctrl+N opens a new document, Ctrl+Z undoes the last action."},
+{t:"msoffice",tl:"Microsoft Word",q:"'Find and Replace' in MS Word is used to:",o:["Search for text and optionally replace it with new text","Find a missing file on the hard drive","Replace a deleted paragraph automatically","Search the internet for content"],a:0,e:"Find and Replace (Ctrl+H) locates specific text in a document and replaces it with different text — useful for bulk editing."},
+{t:"msoffice",tl:"Microsoft Word",q:"Which of the following is NOT a text formatting option in MS Word?",o:["Bold","Italic","Underline","Pivot Table"],a:3,e:"Bold, Italic, and Underline are standard text formatting options. Pivot Table is a Microsoft Excel data analysis feature."},
+{t:"msoffice",tl:"Microsoft Word",q:"Headers and Footers in MS Word appear at the:",o:["Left and right margins","Top and bottom of every page","Centre of the document only","Only on the first page"],a:1,e:"Headers appear at the top margin and Footers appear at the bottom margin of pages, typically showing page numbers or titles."},
+{t:"msoffice",tl:"Microsoft Word",q:"Page Setup in MS Word allows you to change:",o:["Font colour and size","Page margins, orientation, and paper size","Cell width in tables","Background music"],a:1,e:"Page Setup controls paper size, page margins, and page orientation (portrait or landscape)."},
+{t:"msoffice",tl:"Microsoft Word",q:"To add page numbers in MS Word, you go to:",o:["Home tab","Review tab","Insert tab → Header & Footer → Page Number","View tab"],a:2,e:"Page numbers are inserted via Insert tab → Header & Footer group → Page Number option."},
+{t:"msoffice",tl:"Microsoft Word",q:"Which view in MS Word shows the document exactly as it will look when printed?",o:["Draft View","Outline View","Print Layout View","Web Layout View"],a:2,e:"Print Layout view displays the document as it will appear on printed paper, including margins, headers, footers, and page breaks."},
+{t:"msoffice",tl:"Microsoft Word",q:"The shortcut key to Undo the last action in MS Word is:",o:["Ctrl+Y","Ctrl+Z","Ctrl+U","Ctrl+X"],a:1,e:"Ctrl+Z undoes the most recent action. Ctrl+Y redoes an undone action."},
+{t:"msoffice",tl:"Microsoft Word",q:"Which feature in MS Word automatically corrects common spelling mistakes as you type?",o:["Spell Check","AutoCorrect","Grammar Check","Find & Replace"],a:1,e:"AutoCorrect automatically fixes common typos and misspellings as you type, without requiring manual intervention."},
+{t:"msoffice",tl:"Microsoft Excel",q:"Microsoft Excel is primarily used for:",o:["Writing essays and letters","Creating and managing spreadsheets with formulas","Designing slide presentations","Sending and organising emails"],a:1,e:"Microsoft Excel is a spreadsheet application for organising data, performing calculations, creating charts, and data analysis."},
+{t:"msoffice",tl:"Microsoft Excel",q:"In Excel, a Workbook is:",o:["A single cell in a worksheet","One worksheet tab","An Excel file that can contain one or more worksheets","A column of data values"],a:2,e:"An Excel Workbook is the entire .xlsx file, which can contain multiple worksheets (tabs) within it."},
+{t:"msoffice",tl:"Microsoft Excel",q:"The intersection of a row and a column in Excel is called a:",o:["Range","Table","Cell","Formula"],a:2,e:"A cell is the basic unit of a spreadsheet — the rectangular box at the intersection of a specific row and column (e.g. A1, B3)."},
+{t:"msoffice",tl:"Microsoft Excel",q:"Which symbol must all Excel formulas begin with?",o:["# hash","@ at","= equals sign","$ dollar"],a:2,e:"All Excel formulas must start with = (equals sign), e.g. =SUM(A1:A10) or =A1+B1."},
+{t:"msoffice",tl:"Microsoft Excel",q:"What does the SUM function do in Excel?",o:["Finds the average of values","Counts cells that have data","Adds all numeric values in a specified range","Finds the maximum value"],a:2,e:"=SUM() adds together all the numbers in the specified range. For example, =SUM(A1:A5) adds values in cells A1 through A5."},
+{t:"msoffice",tl:"Microsoft Excel",q:"A Pivot Table in Excel is used to:",o:["Format cell text in bold","Summarise, analyse, and reorganise large datasets dynamically","Add decorative borders to cells","Send spreadsheet data by email"],a:1,e:"A Pivot Table lets you summarise and analyse large amounts of data by grouping, filtering, and reorganising it interactively."},
+{t:"msoffice",tl:"Microsoft Excel",q:"Goal Seek in Excel is a What-If Analysis tool that:",o:["Sets a financial goal automatically","Finds what input value is needed to reach a desired formula result","Creates a goal-tracking calendar","Searches for errors in formulas"],a:1,e:"Goal Seek calculates what value a variable must be for a formula to produce a specific desired result."},
+{t:"msoffice",tl:"Microsoft Excel",q:"Which chart type is best suited for showing trends over time?",o:["Pie chart","Bar chart","Line chart","Scatter plot"],a:2,e:"A Line chart is ideal for displaying how data changes over time, connecting data points with lines to show the trend."},
+{t:"msoffice",tl:"Microsoft Excel",q:"The Scenario Manager in Excel is used for:",o:["Managing email schedules","Creating multiple input scenarios to compare different outcomes","Drawing geometric shapes","Printing mailing labels"],a:1,e:"Scenario Manager lets you save and compare multiple sets of input values (scenarios) to see how they affect formula results."},
+{t:"msoffice",tl:"Microsoft Excel",q:"Data Filter in Excel allows you to:",o:["Permanently delete unwanted rows","Change the font colour of selected data","Display only rows that meet specific criteria","Sort all columns alphabetically only"],a:2,e:"Data Filter displays only the rows matching your criteria (e.g. city = 'Ranchi'), temporarily hiding all non-matching rows."},
+{t:"msoffice",tl:"Microsoft Excel",q:"Which Excel function calculates the arithmetic mean of a range?",o:["SUM","AVERAGE","COUNT","MAX"],a:1,e:"=AVERAGE() calculates the arithmetic mean — the sum of all values divided by the number of values in the range."},
+{t:"msoffice",tl:"Microsoft Excel",q:"In Excel, which function counts only cells that contain numbers?",o:["COUNTA","COUNT","COUNTIF","SUM"],a:1,e:"COUNT counts only numeric values. COUNTA counts all non-empty cells. COUNTIF counts cells matching a condition."},
+{t:"msoffice",tl:"Microsoft PowerPoint",q:"Microsoft PowerPoint is used to create:",o:["Spreadsheets with formulas","Relational databases","Presentations consisting of slides","Word processing documents"],a:2,e:"Microsoft PowerPoint is presentation software used to create slideshows containing text, images, charts, animations, and videos."},
+{t:"msoffice",tl:"Microsoft PowerPoint",q:"In PowerPoint, a Slide Master is used to:",o:["Add background audio to all slides","Set a consistent design, layout, and theme for all slides at once","Delete multiple slides quickly","Print only the title slide"],a:1,e:"The Slide Master allows you to set a uniform design (fonts, colours, logos, layouts) that automatically applies to all slides."},
+{t:"msoffice",tl:"Microsoft PowerPoint",q:"Animation in PowerPoint refers to:",o:["The background music of a slideshow","Motion effects applied to individual elements on a slide","The visual effect when moving between slides","Recording a webcam video"],a:1,e:"Animation adds motion effects to individual objects on a slide (e.g. Fly In, Fade, Bounce) — separate from slide transitions."},
+{t:"msoffice",tl:"Microsoft PowerPoint",q:"Slide Transition in PowerPoint is the effect that occurs when:",o:["Text animates within a single slide","Moving from one slide to the next during a presentation","Opening the PowerPoint file","Printing the slide handouts"],a:1,e:"Slide Transitions are visual effects (Fade, Wipe, Push, etc.) that play when advancing from one slide to the next."},
+{t:"msoffice",tl:"Microsoft PowerPoint",q:"Which view displays thumbnail images of all slides side by side?",o:["Normal View","Slide Sorter View","Reading View","Outline View"],a:1,e:"Slide Sorter view shows all slide thumbnails in a grid, making it easy to rearrange, delete, or duplicate slides."},
+{t:"msoffice",tl:"Microsoft PowerPoint",q:"'Rehearse Timings' in PowerPoint is used to:",o:["Record audio narration for slides","Practice and record how long each slide is shown","Change slide background colours","Add entrance animations to text"],a:1,e:"Rehearse Timings records how long you spend on each slide during practice, then uses those timings for automatic playback."},
+{t:"msoffice",tl:"Microsoft PowerPoint",q:"A Photo Album in PowerPoint allows you to:",o:["Create a presentation automatically from a collection of photographs","Add a single photo to one slide","Embed a video file into a slide","Edit photos using filters"],a:0,e:"The Photo Album feature creates a new presentation from a set of photos, automatically organising them onto slides."},
+{t:"msoffice",tl:"Microsoft PowerPoint",q:"Record Narration in PowerPoint allows you to:",o:["Write detailed speaker notes","Record your voice commentary to play automatically during the slideshow","Add background music from a file","Record the audience's reactions"],a:1,e:"Record Narration captures your voice as an audio overlay for each slide, which plays back automatically during the presentation."},
+{t:"msoffice",tl:"Microsoft PowerPoint",q:"To start a slideshow from the very first slide in PowerPoint, you press:",o:["F5","F1","Ctrl+S","Alt+F4"],a:0,e:"Pressing F5 starts the PowerPoint slideshow from Slide 1. Shift+F5 starts from the currently selected slide."},
+{t:"msoffice",tl:"Microsoft PowerPoint",q:"What is the purpose of Speaker Notes in PowerPoint?",o:["Notes displayed on screen for the audience","Notes visible only to the presenter for reference during the talk","To add background music to slides","To animate specific words in text boxes"],a:1,e:"Speaker Notes are private notes added to each slide — only the presenter sees them (on their own screen) as a reference guide."},
+{t:"msoffice",tl:"Digital Education",q:"Digital Education refers to:",o:["Teaching subjects exclusively using printed textbooks","Using digital technologies and tools to facilitate and enhance learning","Studying only computer science subjects","Using a digital projector in a traditional classroom only"],a:1,e:"Digital education uses digital tools — computers, internet, apps, e-learning platforms — to enhance and deliver educational content."},
+{t:"msoffice",tl:"Digital Education",q:"E-learning stands for:",o:["Effective learning","Electronic learning","Engineering learning","Emergency learning"],a:1,e:"E-learning stands for Electronic learning — the delivery of education and training via digital technologies over the internet."},
+{t:"msoffice",tl:"Digital Education",q:"Which of the following is a key advantage of digital education?",o:["Limited access to learning resources","Inability to study at your own pace","Access to learning anytime, anywhere with an internet connection","It always costs more than traditional education"],a:2,e:"A major advantage of digital education is flexibility — learners can access content at any time and from any location."},
+{t:"msoffice",tl:"Digital Education",q:"E-learning includes:",o:["Only face-to-face classroom sessions","Online courses, video lectures, webinars, and virtual classrooms","Only printed study materials distributed digitally","Attending school physically every day"],a:1,e:"E-learning encompasses online courses, video lectures, interactive content, webinars, virtual classrooms, and digital assessments."},
+{t:"msoffice",tl:"Digital Education",q:"Which technology is fundamental to e-learning platforms?",o:["Fax machine and telegraph","Internet and multimedia content","Radio broadcast only","Traditional typewriter"],a:1,e:"E-learning relies on internet connectivity and multimedia (video, audio, interactive modules) to deliver learning experiences."},
+];
+const TOPICS_CONFIG=[
+  {id:"intro",label:"Introduction to Computer Systems",icon:"🖥️"},
+  {id:"msoffice",label:"Microsoft Office Suite",icon:"📊"},
+];
+const QUOTES=[
+  "The secret of getting ahead is getting started. — Mark Twain",
+  "Education is the most powerful weapon you can use to change the world. — Nelson Mandela",
+  "Success is the sum of small efforts, repeated day in and day out. — Robert Collier",
+  "Believe you can and you're halfway there. — Theodore Roosevelt",
+  "The expert in anything was once a beginner.",
+  "Hard work beats talent when talent doesn't work hard.",
+  "Your future is created by what you do today, not tomorrow.",
+  "Don't watch the clock; do what it does — keep going. — Sam Levenson",
+];
+
+// ── STATE ──
+let darkMode = false;
+let wrongCounts = {};
+let personalBest = 0;
+let lastScore = null;
+
+try {
+  const s = JSON.parse(localStorage.getItem('cq_state') || '{}');
+  darkMode = s.darkMode || false;
+  wrongCounts = s.wrongCounts || {};
+  personalBest = s.personalBest || 0;
+  lastScore = s.lastScore || null;
+} catch(e) {}
+
+function saveState() {
+  try { localStorage.setItem('cq_state', JSON.stringify({darkMode, wrongCounts, personalBest, lastScore})); } catch(e) {}
+}
+
+// ── DARK MODE ──
+if (darkMode) document.body.classList.add('dark');
+document.getElementById('dark-toggle').textContent = darkMode ? '☀️' : '🌙';
+document.getElementById('dark-toggle').addEventListener('click', () => {
+  darkMode = !darkMode;
+  document.body.classList.toggle('dark', darkMode);
+  document.getElementById('dark-toggle').textContent = darkMode ? '☀️' : '🌙';
+  saveState();
+});
+
+// ── DAILY QUOTE ──
+document.getElementById('daily-quote').textContent = '"' + QUOTES[new Date().getDay() % QUOTES.length] + '"';
+
+// ── QUIZ STATE ──
+let selectedTopics = new Set();
+let orderMode = 'random', feedbackMode = 'instant';
+let quizQuestions = [], currentIndex = 0, score = 0, streak = 0;
+let userAnswers = [], questionTimes = [];
+let timerInterval = null, questionStartTime = null;
+
+// ── SETUP ──
+const topicsGrid = document.getElementById('topics-grid');
+TOPICS_CONFIG.forEach(t => {
+  const count = QUESTIONS.filter(q => q.t === t.id).length;
+  const pill = document.createElement('button');
+  pill.className = 'topic-pill';
+  pill.dataset.id = t.id;
+  pill.innerHTML = t.icon + ' <span class="pill-dot"></span>' + t.label + ' <span style="opacity:0.45;font-size:11px;margin-left:4px">(' + count + ' Qs)</span>';
+  pill.addEventListener('click', () => {
+    if (selectedTopics.has(t.id)) { selectedTopics.delete(t.id); pill.classList.remove('selected'); }
+    else { selectedTopics.add(t.id); pill.classList.add('selected'); }
+    updateCount();
+  });
+  topicsGrid.appendChild(pill);
+});
+
+document.getElementById('select-all-btn').addEventListener('click', () => {
+  const allSel = selectedTopics.size === TOPICS_CONFIG.length;
+  document.querySelectorAll('.topic-pill').forEach(p => {
+    if (allSel) { selectedTopics.delete(p.dataset.id); p.classList.remove('selected'); }
+    else { selectedTopics.add(p.dataset.id); p.classList.add('selected'); }
+  });
+  updateCount();
+});
+
+['order-seg','feedback-seg'].forEach(sid => {
+  document.querySelectorAll('#' + sid + ' button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#' + sid + ' button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (sid === 'order-seg') orderMode = btn.dataset.val;
+      else feedbackMode = btn.dataset.val;
+    });
+  });
+});
+
+function updateCount() {
+  const n = QUESTIONS.filter(q => selectedTopics.has(q.t)).length;
+  document.getElementById('q-count-display').textContent = n;
+  document.getElementById('start-btn').disabled = n === 0;
+}
+
+document.getElementById('start-btn').addEventListener('click', startQuiz);
+
+// ── SPACED REPETITION ──
+function buildPool() {
+  let pool = QUESTIONS.filter(q => selectedTopics.has(q.t));
+  const extra = [];
+  pool.forEach(q => {
+    const w = wrongCounts[q.q] || 0;
+    for (let i = 0; i < Math.min(w, 2); i++) extra.push({...q, _revisit: true});
+  });
+  pool = [...pool, ...extra];
+  if (orderMode === 'random') pool = pool.sort(() => Math.random() - 0.5);
+  return pool;
+}
+
+function startQuiz() {
+  quizQuestions = buildPool();
+  userAnswers = Array(quizQuestions.length).fill(null);
+  questionTimes = Array(quizQuestions.length).fill(0);
+  currentIndex = 0; score = 0; streak = 0;
+  showScreen('quiz');
+  document.getElementById('q-total').textContent = quizQuestions.length;
+  renderQuestion();
+}
+
+function showScreen(name) {
+  ['setup','quiz','results'].forEach(s => document.getElementById(s + '-screen').style.display = 'none');
+  document.getElementById(name + '-screen').style.display = 'block';
+}
+
+// ── SOUND ──
+function playSound(type) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    if (type === 'correct') {
+      o.frequency.setValueAtTime(523, ctx.currentTime);
+      o.frequency.setValueAtTime(659, ctx.currentTime + 0.1);
+      o.frequency.setValueAtTime(784, ctx.currentTime + 0.2);
+      g.gain.setValueAtTime(0.15, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+    } else if (type === 'wrong') {
+      o.frequency.setValueAtTime(300, ctx.currentTime);
+      o.frequency.setValueAtTime(200, ctx.currentTime + 0.15);
+      g.gain.setValueAtTime(0.12, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+    } else if (type === 'complete') {
+      o.frequency.setValueAtTime(523, ctx.currentTime);
+      o.frequency.setValueAtTime(659, ctx.currentTime + 0.15);
+      o.frequency.setValueAtTime(784, ctx.currentTime + 0.3);
+      o.frequency.setValueAtTime(1047, ctx.currentTime + 0.45);
+      g.gain.setValueAtTime(0.15, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
+    }
+    o.start(); o.stop(ctx.currentTime + 0.9);
+  } catch(e) {}
+}
+
+// ── CONFETTI ──
+function launchConfetti() {
+  const colors = ['#c9973a','#1e7a6e','#f0c96a','#5a3e8a','#c94f2a','#2aaa98'];
+  for (let i = 0; i < 80; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `left:${Math.random()*100}vw;top:-10px;background:${colors[Math.floor(Math.random()*colors.length)]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()*1}s;border-radius:${Math.random()>0.5?'50%':'2px'};position:fixed`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 4000);
+  }
+}
+
+// ── RENDER QUESTION ──
+function renderQuestion() {
+  clearInterval(timerInterval);
+  questionStartTime = Date.now();
+  const q = quizQuestions[currentIndex];
+  const alreadyAnswered = userAnswers[currentIndex] !== null;
+
+  document.getElementById('q-current').textContent = currentIndex + 1;
+  document.getElementById('live-score').textContent = score;
+  document.getElementById('progress-fill').style.width = (currentIndex / quizQuestions.length * 100) + '%';
+
+  const tagEl = document.getElementById('q-tag');
+  tagEl.textContent = q.tl;
+  tagEl.className = 'topic-tag ' + (q.t === 'intro' ? 'tag-intro' : 'tag-msoffice');
+  document.getElementById('q-num-badge').textContent = currentIndex + 1;
+  document.getElementById('q-text').textContent = q.q;
+
+  const rw = document.getElementById('revisit-tag-wrap');
+  rw.innerHTML = q._revisit ? '<div class="revisit-tag">🔁 Revisiting — you got this wrong before</div>' : '';
+
+  const optsEl = document.getElementById('opts-container');
+  optsEl.innerHTML = '';
+  ['A','B','C','D'].forEach((letter, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.innerHTML = `<span class="opt-key">${letter}</span><span>${q.o[i]}</span>`;
+    btn.addEventListener('click', () => selectAnswer(i));
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('explanation').style.display = 'none';
+  document.getElementById('streak-banner').style.display = 'none';
+
+  if (alreadyAnswered) revealAnswers(userAnswers[currentIndex]);
+
+  document.getElementById('prev-btn').disabled = currentIndex === 0;
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.textContent = currentIndex === quizQuestions.length - 1 ? 'Finish Quiz ✓' : 'Next →';
+  nextBtn.disabled = feedbackMode === 'instant' && !alreadyAnswered;
+
+  // Timer
+  let secs = 0;
+  const tc = document.getElementById('timer-chip');
+  const td = document.getElementById('timer-display');
+  if (!alreadyAnswered) {
+    td.textContent = '0s';
+    tc.className = 'timer-chip';
+    timerInterval = setInterval(() => {
+      secs++;
+      td.textContent = secs + 's';
+      tc.className = 'timer-chip' + (secs >= 20 ? ' urgent' : '');
+    }, 1000);
+  } else {
+    td.textContent = (questionTimes[currentIndex] || '--') + (questionTimes[currentIndex] ? 's' : '');
+    tc.className = 'timer-chip';
+  }
+}
+
+function selectAnswer(idx) {
+  if (userAnswers[currentIndex] !== null && feedbackMode === 'instant') return;
+  clearInterval(timerInterval);
+  questionTimes[currentIndex] = Math.round((Date.now() - questionStartTime) / 1000);
+  userAnswers[currentIndex] = idx;
+  const q = quizQuestions[currentIndex];
+  const correct = idx === q.a;
+
+  if (correct) {
+    score += 10; streak++;
+    document.getElementById('live-score').textContent = score;
+    playSound('correct');
+    if (streak >= 3) {
+      document.getElementById('streak-text').textContent = streak + ' correct in a row! Keep going!';
+      document.getElementById('streak-banner').style.display = 'flex';
+    }
+  } else {
+    streak = 0;
+    document.getElementById('streak-banner').style.display = 'none';
+    playSound('wrong');
+    wrongCounts[q.q] = (wrongCounts[q.q] || 0) + 1;
+    saveState();
+  }
+
+  if (feedbackMode === 'instant') {
+    revealAnswers(idx);
+    document.getElementById('next-btn').disabled = false;
+  } else {
+    const opts = document.querySelectorAll('.opt');
+    opts[idx].style.borderColor = 'var(--teal)';
+    opts[idx].style.background = 'rgba(30,122,110,0.07)';
+    opts[idx].querySelector('.opt-key').style.background = 'var(--teal)';
+    opts[idx].querySelector('.opt-key').style.color = 'white';
+  }
+}
+
+function revealAnswers(selected) {
+  const q = quizQuestions[currentIndex];
+  document.querySelectorAll('.opt').forEach((o, i) => {
+    o.disabled = true;
+    if (i === q.a) o.classList.add(selected === q.a ? 'correct' : 'reveal');
+    if (i === selected && selected !== q.a) o.classList.add('wrong');
+  });
+  document.getElementById('explanation-text').textContent = q.e;
+  document.getElementById('explanation').style.display = 'block';
+}
+
+document.getElementById('next-btn').addEventListener('click', () => {
+  if (currentIndex === quizQuestions.length - 1) { showResults(); return; }
+  currentIndex++; renderQuestion();
+});
+
+document.getElementById('prev-btn').addEventListener('click', () => {
+  if (currentIndex > 0) { currentIndex--; renderQuestion(); }
+});
+
+// ── RESULTS ──
+function showResults() {
+  clearInterval(timerInterval);
+  playSound('complete');
+  showScreen('results');
+  document.getElementById('cheat-sheet').style.display = 'none';
+
+  let correct = 0, wrong = 0, skipped = 0;
+  const topicStats = {};
+  quizQuestions.forEach((q, i) => {
+    if (!topicStats[q.tl]) topicStats[q.tl] = {correct: 0, total: 0};
+    topicStats[q.tl].total++;
+    const ua = userAnswers[i];
+    if (ua === null) skipped++;
+    else if (ua === q.a) { correct++; topicStats[q.tl].correct++; }
+    else wrong++;
+  });
+
+  const total = quizQuestions.length;
+  const pct = Math.round((correct / total) * 100);
+
+  document.getElementById('r-correct').textContent = correct;
+  document.getElementById('r-wrong').textContent = wrong;
+  document.getElementById('r-skipped').textContent = skipped;
+  document.getElementById('result-pct').textContent = pct + '%';
+  document.getElementById('bar-pct-label').textContent = pct + '%';
+  setTimeout(() => document.getElementById('grade-bar-fill').style.width = pct + '%', 200);
+
+  const isNewBest = pct > personalBest;
+  if (isNewBest) personalBest = pct;
+  lastScore = pct;
+  saveState();
+
+  document.getElementById('personal-best-tag').style.display = isNewBest ? 'inline-flex' : 'none';
+
+  let emoji, grade, msg;
+  if (pct >= 90) { emoji = '🏆'; grade = 'Outstanding!'; msg = 'Exceptional! You have mastered the full syllabus. Walk into that exam with confidence.'; }
+  else if (pct >= 75) { emoji = '🎓'; grade = 'Great job!'; msg = 'Strong result! Go over the missed questions once more and you\'ll be fully prepared.'; }
+  else if (pct >= 60) { emoji = '👍'; grade = 'Good effort!'; msg = 'Decent performance. Read the explanations for missed questions and revise those chapters.'; }
+  else if (pct >= 40) { emoji = '📖'; grade = 'Keep studying!'; msg = 'You have the basics. Focus on your weaker chapters, revise your notes, and try again soon.'; }
+  else { emoji = '💪'; grade = 'Don\'t give up!'; msg = 'This was challenging — but that\'s why you\'re practising! Go back to the textbook and try again.'; }
+
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-grade').textContent = grade;
+  document.getElementById('result-msg').textContent = msg;
+
+  const sm = document.getElementById('secret-msg');
+  if (pct >= 90) { sm.style.display = 'block'; launchConfetti(); setTimeout(launchConfetti, 1500); }
+  else { sm.style.display = 'none'; if (pct >= 75) launchConfetti(); }
+
+  renderWeakChapters(topicStats);
+  buildCheatSheet();
+}
+
+function renderWeakChapters(topicStats) {
+  const el = document.getElementById('weak-chapters-content');
+  el.innerHTML = '';
+  Object.entries(topicStats)
+    .sort((a, b) => (a[1].correct / a[1].total) - (b[1].correct / b[1].total))
+    .forEach(([topic, stats]) => {
+      const pct = Math.round((stats.correct / stats.total) * 100);
+      const cls = pct >= 75 ? 'weak-good' : pct >= 50 ? 'weak-mid' : 'weak-bad';
+      const item = document.createElement('div');
+      item.className = 'weak-item';
+      item.innerHTML = `<div class="weak-item-top"><span>${topic}</span><span class="weak-pct">${stats.correct}/${stats.total} · ${pct}%</span></div><div class="weak-bar-track"><div class="weak-bar-fill ${cls}" style="width:0%"></div></div>`;
+      el.appendChild(item);
+      setTimeout(() => item.querySelector('.weak-bar-fill').style.width = pct + '%', 300);
+    });
+}
+
+function buildCheatSheet() {
+  const el = document.getElementById('cheat-sheet-content');
+  el.innerHTML = '';
+  const wrongQs = quizQuestions.filter((q, i) => userAnswers[i] !== null && userAnswers[i] !== q.a);
+  if (wrongQs.length === 0) {
+    el.innerHTML = '<p style="color:var(--teal);font-weight:600;padding:12px 0">🎉 You got everything right! Nothing to revise here.</p>';
+    return;
+  }
+  wrongQs.forEach(q => {
+    const d = document.createElement('div');
+    d.className = 'cheat-item';
+    d.innerHTML = `<span class="cheat-q">${q.q}</span><span class="cheat-a">${q.o[q.a]}</span>`;
+    el.appendChild(d);
+  });
+}
+
+document.getElementById('btn-cheatsheet').addEventListener('click', () => {
+  const cs = document.getElementById('cheat-sheet');
+  cs.style.display = cs.style.display === 'block' ? 'none' : 'block';
+  if (cs.style.display === 'block') cs.scrollIntoView({behavior: 'smooth'});
+});
+
+document.getElementById('btn-restart').addEventListener('click', () => {
+  currentIndex = 0; score = 0; streak = 0;
+  userAnswers = Array(quizQuestions.length).fill(null);
+  if (orderMode === 'random') quizQuestions = quizQuestions.sort(() => Math.random() - 0.5);
+  showScreen('quiz'); renderQuestion();
+});
+
+document.getElementById('btn-home').addEventListener('click', () => showScreen('setup'));
+</script>
+</body>
+</html>
